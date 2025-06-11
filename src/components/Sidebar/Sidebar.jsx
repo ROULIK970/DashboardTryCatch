@@ -1,11 +1,10 @@
-import React from 'react'
+import React from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-export default function DashboardSidebar({collapsed}) {
-
+export default function DashboardSidebar({ collapsed }) {
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+    <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
       <Sidebar collapsed={collapsed} transitionDuration={1000}>
         <div>
           <img
@@ -17,21 +16,27 @@ export default function DashboardSidebar({collapsed}) {
         </div>
 
         <Menu>
-          <Link to='/dashboard'>
-            <MenuItem> Dashboard</MenuItem>
-          </Link>
+          <MenuItem>
+            <Link to="/dashboard"> Dashboard</Link>
+          </MenuItem>
 
           <SubMenu label="Category">
-            <Link to="/category">
-              <MenuItem> Category List</MenuItem>
-            </Link>
-            <MenuItem> Add Category</MenuItem>
+            <MenuItem>
+              <Link to="/category">Category List</Link>{" "}
+            </MenuItem>
+
+            <MenuItem>
+              <Link to="/add-category"> Add Category</Link>
+            </MenuItem>
           </SubMenu>
           <SubMenu label="Product">
-            <Link to="/product">
-              <MenuItem> Product List</MenuItem>
-            </Link>
-            <MenuItem> Add Product</MenuItem>
+            <MenuItem>
+              <Link to="/product"> Product List</Link>
+            </MenuItem>
+
+            <MenuItem>
+              <Link to="/add-product"> Add Product</Link>
+            </MenuItem>
           </SubMenu>
         </Menu>
       </Sidebar>
