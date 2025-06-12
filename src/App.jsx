@@ -8,6 +8,10 @@ import Layout from "./components/Layout/Layout";
 import ProductList from "./components/Product/ProductList";
 import AddCategory from "./components/Category/AddCategory";
 import AddProduct from "./components/Product/AddProduct";
+import Login from "./components/Login/Login.jsx";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+
 
 function App() {
   
@@ -65,13 +69,37 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/category" element={<CategoryList categories={categories}/>} />
-        <Route path="/add-category" element={<AddCategory categories={categories} setCategories={setCategories}/>}/>
-        <Route path="/product" element={<ProductList products={products}/>} />
-        <Route path="/add-product" element={<AddProduct products={products} setProducts={setProducts}/>}/>
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<PageNotFound/>}/>
+      <Route element={<PrivateRoute/>}>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/category"
+            element={<CategoryList categories={categories} />}
+          />
+          <Route
+            path="/add-category"
+            element={
+              <AddCategory
+                categories={categories}
+                setCategories={setCategories}
+              />
+            }
+          />
+          <Route
+            path="/product"
+            element={<ProductList products={products} />}
+          />
+          <Route
+            path="/add-product"
+            element={
+              <AddProduct products={products} setProducts={setProducts} />
+            }
+          />
+        </Route>
       </Route>
     </Routes>
   );

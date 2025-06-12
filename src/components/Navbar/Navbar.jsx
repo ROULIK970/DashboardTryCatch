@@ -3,6 +3,9 @@ import {Container, Navbar} from 'react-bootstrap'
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function DashboardNavbar({collapsed, setCollapsed}) {
+
+  const name = sessionStorage.getItem('name')
+  const image = sessionStorage.getItem('image')
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
@@ -11,7 +14,8 @@ export default function DashboardNavbar({collapsed, setCollapsed}) {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            Signed in as: <a href="#login">Mark Otto</a>
+            <img height='20%' width='20%' src={image} alt="" />
+             <span>{name}</span>
           </Navbar.Text>
         </Navbar.Collapse>
       </Container>
