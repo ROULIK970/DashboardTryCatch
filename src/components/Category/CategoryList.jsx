@@ -1,32 +1,46 @@
-import React, {useState} from 'react';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { GrFormView } from "react-icons/gr";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import axios from "axios";
+
+export default function CategoryList({ categories }) {
+  const [categoryList, setCategoryList] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCategoryForModal, setSelectedCategoryForModal] =
+    useState(null);
 
 
-export default function CategoryList({categories}) {
+    
+  const handleEditClick = (id) => {
+    console.log(id);
+  };
 
-  const [showModal, setShowModal] = useState(false)
-  const [selectedCategoryForModal, setSelectedCategoryForModal] = useState(null)
-const handleEditClick = (id) =>{
-  console.log(id)
-}
+  const handleDeleteClick = async (id) => {
+    try {
+      await axios
+        .delete(
+          `https://684677e37dbda7ee7aaf1e2b.mockapi.io/mock/category/${id}`
+        )
+        .then((res) => console.log(res));
+      setCategoryList((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const handleDeleteClick = (id) => {
-  console.log(id);
-};
-
-const handleViewClick = (id) => {
-  const category = categories.filter(cat => cat.id === id)
-  setSelectedCategoryForModal(category[0])
-  console.log(selectedCategoryForModal)
-  setShowModal(!showModal)
-};
+  const handleViewClick = async (id) => {
+    await axios
+      .get(`https://684677e37dbda7ee7aaf1e2b.mockapi.io/mock/category/${id}`)
+      .then((res) => setSelectedCategoryForModal(res.data))
+      .catch((e) => console.log(e));
+    setShowModal(!showModal);
+  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -67,7 +81,6 @@ const handleViewClick = (id) => {
       width: 100,
       cellClassName: "actions",
       getActions: ({ id }) => {
-
         return [
           <GridActionsCellItem
             icon={<GrFormView />}
@@ -93,6 +106,9 @@ const handleViewClick = (id) => {
     },
   ];
 
+  useEffect(() => {
+    setCategoryList(categories);
+  }, [categories]);
 
   return (
     <>
@@ -134,7 +150,7 @@ const handleViewClick = (id) => {
       )}
       <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
-          rows={categories}
+          rows={categoryList}
           columns={columns}
           initialState={{
             pagination: {
@@ -152,5 +168,3 @@ const handleViewClick = (id) => {
     </>
   );
 }
-
-
